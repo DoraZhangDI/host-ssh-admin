@@ -22,6 +22,7 @@ def updateSshConf():
                             select max(t1.dt) from localInfo.centosip as t1)) 
                                 where hostAlias = 'centos'"""
     dbm.query(sql)
+    dbm.commit()
     return dbm.fetchOne()
 
 def updateCentosIP(ob):
