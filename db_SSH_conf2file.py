@@ -10,12 +10,12 @@ from conf import *
 def getAllSHH_conf():
     dbm = DBMonitor()
     dbm.selectDB('localInfo')
-    sql = "select hostAlias,Hostname,username,PreferredAuthentications,IdentityFile,portno from sshconf;"
+    sql = "select hostAlias,Hostname,username,PreferredAuthentications,IdentityFile,portno,ServerAliveInterval,ServerAliveCountMax from sshconf;"
     dbm.query(sql)
     results = dbm.fetchAll()
     sshconf = []
     for r in results:
-        sshconf.append({r[0]:{'Hostname':r[1],'User':r[2],'PreferredAuthentications':r[3],'IdentityFile':r[4],'Port':r[5]}})
+        sshconf.append({r[0]:{'Hostname':r[1],'User':r[2],'PreferredAuthentications':r[3],'IdentityFile':r[4],'Port':r[5],'ServerAliveInterval':r[6],'ServerAliveCountMax':r[7]}})
     return sshconf
 
 def write2sysout(sc):
@@ -34,7 +34,7 @@ def write2ssh_conf(sc):
         for k,v in kv.items():
             print >> f, 'Host',k
             for kk,vv in v.items():
-                if vv != '':
+                if not (vv == '' or vv == None):
                     print >> f, '\t',kk,vv
             print >> f, ''
 
